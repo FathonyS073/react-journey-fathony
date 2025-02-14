@@ -11,19 +11,30 @@ Currently, two official plugins are available:
 
 React Learning Journey 🚀
 📌 About This Repository
-This repository documents my journey of learning React.js, including tutorials, mini-projects, and hands-on experiments. The goal is to solidify my understanding, share insights, and create reusable components for future projects.
+This repository documents my journey of learning React.js, including tutorials, mini-projects, and hands-on experiments. 
+The goal is to solidify my understanding, share insights, and create reusable components for future projects.
 
 📚 Topics Covered:
-✅ React Fundamentals (Components, Props, State, Hooks)
-✅ React Router (Navigation & Routing)
-✅ State Management (Context API, Redux)
-✅ API Integration (Fetch, Axios)
-✅ Styling with Tailwind CSS / Styled Components
-✅ Performance Optimization & Best Practices
+✅ React Fundamentals (Components, Props, State, Hooks) <br>
+
+✅ React Router (Navigation & Routing) <br>
+
+✅ State Management (Context API, Redux) <br>
+
+✅ API Integration (Fetch, Axios) <br>
+
+✅ Styling with Tailwind CSS / Styled Components <br>
+
+✅ Performance Optimization & Best Practices <br>
 
 🛠 Technologies Used:
+
 React.js
-Vite (optional)
+
+Vite.js
+
 Tailwind CSS / Styled Components
+
 React Router
+
 Redux Toolkit (optional)
