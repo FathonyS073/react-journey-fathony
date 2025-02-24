@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState  } from "react"
+import { Fragment, useEffect, useRef, useState  } from "react"
 import CardProducts from "../Components/fragments/CardProducts"
 import Button from "../Components/Elements/Button"
 
@@ -75,6 +75,16 @@ const ProductsPage = () => {
         }
     };
 
+    //UseRef
+    const cartRef = useRef(
+        JSON.parse(localStorage.getItem("cart")) || []
+    );
+
+    const addtoCartRef = (id) => {
+        cartRef.current = [...cartRef.current, {id, qty : 1}];
+        localStorage.setItem("cart", JSON.stringify(cartRef.current))
+    }
+
     return (
         <Fragment>
             <div className="flex justify-end h-10 bg-blue-600 text-white items-center px-10 py-10">
@@ -89,7 +99,7 @@ const ProductsPage = () => {
                         <CardProducts.Body name={product.name}>
                             {product.description}
                         </CardProducts.Body>
-                        <CardProducts.Footer price={product.price} id={product.id} addToCart={addToCart}/>
+                        <CardProducts.Footer price={product.price} id={product.id} addToCart={addtoCartRef}/>
                     </CardProducts>
                 ))}
                 </div>
@@ -105,7 +115,7 @@ const ProductsPage = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {cart.map((item) => {
+                            {cartRef.current.map((item) => {
                                 const product = products.find((product) => product.id === item.id)
                                 return (
                                     <tr key={item.id}>
@@ -118,11 +128,11 @@ const ProductsPage = () => {
                                     </tr>
                                 )
                             })}
-                            <tr>
+                            {/* <tr>
                                 <td colSpan={3}><b>Total Price</b></td>
                                 <td> Rp. {totalPrice.toLocaleString('id-ID', {styles:'currecy', currency : 'IDR'})}</td>
 
-                            </tr>
+                            </tr> */}
                         </tbody>
                     </table>
                 </div>
