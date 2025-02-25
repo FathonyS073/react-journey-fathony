@@ -9,7 +9,9 @@ const email = localStorage.getItem("email")
 
 const ProductsPage = () => {
     const [cart, setCart] = useState([]);
+    
     const [totalPrice, setTotalPrice] = useState(0);
+    
     useEffect(() => {
        setCart(JSON.parse(localStorage.getItem("cart")) || []) 
     }, []); //untuk komponen didUpdate
@@ -31,7 +33,7 @@ const ProductsPage = () => {
 
     useEffect (() => {
         getProducts((data)=>{
-            console.log(data) 
+            setProducts(data)
         });
     },[])
 
@@ -57,7 +59,7 @@ const ProductsPage = () => {
         } else {
             totalPriceRef.current.style.display = "none"
         }
-    }, [cart])
+    }, [cart, products])
 
     //UseRef
     const cartRef = useRef(
@@ -81,7 +83,7 @@ const ProductsPage = () => {
                 products.map((product) => ( 
                     <CardProducts key={product.id}>
                         <CardProducts.Header image={product.image}/>
-                        <CardProducts.Body name={product.name}>
+                        <CardProducts.Body name={product.title}>
                             {product.description}
                         </CardProducts.Body>
                         <CardProducts.Footer price={product.price} id={product.id} addToCart={addToCart}/>
@@ -105,18 +107,18 @@ const ProductsPage = () => {
                                 const product = products.find((product) => product.id === item.id)
                                 return (
                                     <tr key={item.id}>
-                                        <td>{product.name}</td>
-                                        <td>Rp.{" "}
-                                        {product.price.toLocaleString('id-ID', {styles:'currecy', currency : 'IDR'})}
+                                        <td>{product.title.substring(0,10)} ...</td>
+                                        <td>$.{" "}
+                                        {product.price.toLocaleString('id-ID', {styles:'currecy', currency : 'USD'})}
                                         </td>
                                         <td>{item.qty}</td>
-                                        <td>Rp{(product.price * item.qty).toLocaleString('id-ID', {styles:'currecy', currency : 'IDR'})}</td>
+                                        <td>${(product.price * item.qty).toLocaleString('id-ID', {styles:'currecy', currency : 'USD'})}</td>
                                     </tr>
                                 )
                             })}
                             <tr ref={totalPriceRef}>
                                 <td colSpan={3}><b>Total Price</b></td>
-                                <td> Rp. {totalPrice.toLocaleString('id-ID', {styles:'currecy', currency : 'IDR'})}</td>
+                                <td> $. {totalPrice.toLocaleString('id-ID', {styles:'currecy', currency : 'USD'})}</td>
 
                             </tr>
                         </tbody>
