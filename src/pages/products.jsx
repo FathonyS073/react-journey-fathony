@@ -75,6 +75,15 @@ const ProductsPage = () => {
         }
     };
 
+    const totalPriceRef =  useRef(null)
+    useEffect(() => {
+        if (cart.length > 0) {
+            totalPriceRef.current.style.display = "table-row"   
+        } else {
+            totalPriceRef.current.style.display = "none"
+        }
+    }, [cart])
+
     //UseRef
     const cartRef = useRef(
         JSON.parse(localStorage.getItem("cart")) || []
@@ -99,7 +108,7 @@ const ProductsPage = () => {
                         <CardProducts.Body name={product.name}>
                             {product.description}
                         </CardProducts.Body>
-                        <CardProducts.Footer price={product.price} id={product.id} addToCart={addtoCartRef}/>
+                        <CardProducts.Footer price={product.price} id={product.id} addToCart={addToCart}/>
                     </CardProducts>
                 ))}
                 </div>
@@ -115,7 +124,7 @@ const ProductsPage = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {cartRef.current.map((item) => {
+                            {cart.map((item) => {
                                 const product = products.find((product) => product.id === item.id)
                                 return (
                                     <tr key={item.id}>
@@ -128,11 +137,11 @@ const ProductsPage = () => {
                                     </tr>
                                 )
                             })}
-                            {/* <tr>
+                            <tr ref={totalPriceRef}>
                                 <td colSpan={3}><b>Total Price</b></td>
                                 <td> Rp. {totalPrice.toLocaleString('id-ID', {styles:'currecy', currency : 'IDR'})}</td>
 
-                            </tr> */}
+                            </tr>
                         </tbody>
                     </table>
                 </div>
