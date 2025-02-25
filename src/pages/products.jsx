@@ -1,42 +1,7 @@
 import { Fragment, useEffect, useRef, useState  } from "react"
 import CardProducts from "../Components/fragments/CardProducts"
 import Button from "../Components/Elements/Button"
-
-const products = [
-    {
-        id : 1,
-        name : "Sepatu Baru",
-        image : "../Asset/sepatu1.webp",
-        description : `Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas cumque voluptatibus deserunt eaque, 
-        magni quasi voluptatum unde minima dolore recusandae dolor maiores nihil, fugiat facilis consequatur,`,
-        price : 200000
-
-    },
-    {
-        id : 2,
-        name : "Sepatu Lama",
-        image : "../Asset/sepatu.jpg",
-        description : `Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas cumque voluptatibus deserunt eaque, 
-        magni quasi voluptatum,`,
-        price : 500000,
-    },
-    {
-        id : 3,
-        name : "Sepatu Lama banget",
-        image : "../Asset/sepatu2.webp",
-        description : `Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas cumque voluptatibus deserunt eaque, 
-        magni quasi voluptatum unde minima dolore recusandae dolor maiores nihil, fugiat facilis consequatur,`,
-        price : 1000000
-    },
-    {
-        id : 4,
-        name : "Sepatu Lama banget",
-        image : "../Asset/sepatu2.webp",
-        description : `Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas cumque voluptatibus deserunt eaque, 
-        magni quasi voluptatum unde minima dolore recusandae dolor maiores nihil, fugiat facilis consequatur,`,
-        price : 1500000
-    }
-]
+import { getProducts } from "../Services/product.service"
 
 const email = localStorage.getItem("email")
 
@@ -49,8 +14,12 @@ const ProductsPage = () => {
        setCart(JSON.parse(localStorage.getItem("cart")) || []) 
     }, []); //untuk komponen didUpdate
 
+
+    const [products, setProducts] = useState([]);
+
     useEffect(() => {
-        if (cart.length > 0) {
+        if (products.length > 0 &&
+            cart.length > 0) {
             const sum = cart.reduce((acc, item) => {
                 const product = products.find((product) => product.id === item.id);
                 return acc + (product.price * item.qty);
@@ -59,6 +28,12 @@ const ProductsPage = () => {
             localStorage.setItem("cart", JSON.stringify(cart))
         }
     }, [cart])
+
+    useEffect (() => {
+        getProducts((data)=>{
+            console.log(data) 
+        });
+    },[])
 
 
     const handlerLogout = () => {
@@ -102,7 +77,8 @@ const ProductsPage = () => {
             </div>
             <div className="flex justify-center py-5 mx-10">
                 <div className="w-3/4 flex flex-wrap">
-                {products.map((product) => ( 
+                {products.length > 0 && 
+                products.map((product) => ( 
                     <CardProducts key={product.id}>
                         <CardProducts.Header image={product.image}/>
                         <CardProducts.Body name={product.name}>
@@ -124,7 +100,8 @@ const ProductsPage = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {cart.map((item) => {
+                            {products.length > 0 && 
+                            cart.map((item) => {
                                 const product = products.find((product) => product.id === item.id)
                                 return (
                                     <tr key={item.id}>
